@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:f="http://java.sun.com/jsf/core" 
+	  xmlns:h="http://java.sun.com/jsf/html"
+	  xmlns:p="http://primefaces.org/ui">
+	<h:head>
+		<title>Sistema Argentina</title>
+	</h:head>
+	
+	<h:body>
+		<h:form id="formCadastro">
+			
+			<p:messages id="mensagem" />
+			
+			<fieldset>
+				<legend>Dados do Departamento:</legend>
+				<br />
+				<h:panelGrid columns="1">
+					<p:outputLabel value="Descrição:" form="descricao" />
+					<p:inputText id="descricao" value="#{departamentoBean.departamento.descricao}" style="width:600px;"/>
+				</h:panelGrid>				
+				<br />				
+				<h:panelGrid columns="1">
+					<p:outputLabel value="Centro de Custo:" form="centrodecusto" />
+					<p:inputText id="centrodecusto" value="#{departamentoBean.departamento.centroDeCusto}"/>
+				</h:panelGrid>				
+				<br />							
+				<p:outputLabel for="status" value="Status:" />
+				<p:selectOneRadio id="status" value="#{departamentoBean.departamento.status}" >
+					<f:selectItem itemValue="A" itemLabel="Ativo" />
+					<f:selectItem itemValue="I" itemLabel="Inativo" />
+				</p:selectOneRadio>
+				<br />
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Data Cadastro:" form="dataCadastro" />
+						<p:inputText id="dataCadastro" value="#{usuarioBean.usuario.dataCadastro}" style="background-color:#D3D3D3;" readonly="true"/>
+					</h:panelGrid>	
+					<h:panelGrid columns="1">
+						<p:outputLabel value="Data Alteracao:" form="dataAlteracao" />
+						<p:inputText id="dataAlteracao" value="#{usuarioBean.usuario.dataAlteracao}" style="background-color:#D3D3D3;" readonly="true"/>
+					</h:panelGrid>					
+				</h:panelGrid>								
+			</fieldset>
+			
+			<h:panelGrid columns="2">
+				<p:commandButton value="Salvar" actionListener="#{departamentoBean.gravar}" update=":formCadastro" />
+										 
+				<p:commandButton value="Cancelar" process="@none"/>
+			</h:panelGrid>
+		</h:form>
+	</h:body>
+</html>
