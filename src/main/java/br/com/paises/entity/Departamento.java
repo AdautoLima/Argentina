@@ -1,13 +1,26 @@
 package br.com.paises.entity;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
+
+@NamedQueries({
+	@NamedQuery(name="Departamento.buscaDepartamentoPorCentroDeCusto", 
+				query="select d from Departamento d where d.centroDeCusto = :centroDeCusto"),
+
+	@NamedQuery(name = "Departamento.consultarDepartamentoPorCentroDeCusto",
+				query = " SELECT d FROM Departamento d WHERE d.centroDeCusto = :centroDeCusto")
+})
 
 @Entity
 public class Departamento {
@@ -30,25 +43,40 @@ public class Departamento {
 	private String centroDeCusto;	
 		
 	@Column(name="DEPTO_STATUS",nullable=false)
-	private String status;			 
+	private Character status;			 
 		
 	@Column(name="DEPTO_DATA_CADASTRO",nullable=false)
-	private Calendar dataCadastro;	 
+	@Temporal(TemporalType.DATE)
+	private Date dataCadastro;	 
 	
-	//@Temporal(TemporalType.DATE)
-	//private Calendar dataNascimento = Calendar.getInstance();
-		
 	@Column(name="DEPTO_DATA_ALTERACAO")
-	private Calendar dataAlteracao;
+	@Temporal(TemporalType.DATE)
+	private Date dataAlteracao;
 	
 	public Departamento() {
 		super();
 	}
 
+	@Transient  
+	public String getStatusFormatado() {
+		String statusFormatado = null;
+		
+		switch (status) {
+			case 'A': statusFormatado = "Ativo";
+			break;
+			case 'I': statusFormatado = "Inativo";
+			break;
+		}
+		return statusFormatado;
+	}
+	
+	
+	
+	
 	
 
-	public Departamento(Integer id, String descricao, String centroDeCusto, String status, Calendar dataCadastro,
-			Calendar dataAlteracao) {
+	public Departamento(Integer id, String descricao, String centroDeCusto, Character status, Date dataCadastro,
+			Date dataAlteracao) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
@@ -84,27 +112,27 @@ public class Departamento {
 		this.centroDeCusto = centroDeCusto;
 	}
 
-	public String getStatus() {
+	public Character getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(Character status) {
 		this.status = status;
 	}
 
-	public Calendar getDataCadastro() {
+	public Date getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Calendar dataCadastro) {
+	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Calendar getDataAlteracao() {
+	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
 
-	public void setDataAlteracao(Calendar dataAlteracao) {
+	public void setDataAlteracao(Date dataAlteracao) {
 		this.dataAlteracao = dataAlteracao;
 	}
 

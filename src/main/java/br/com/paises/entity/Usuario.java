@@ -1,7 +1,7 @@
 package br.com.paises.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class Usuario implements Serializable {
@@ -43,12 +45,13 @@ public class Usuario implements Serializable {
 	@JoinColumn(nullable=false)
 	//@Column(name="USU_DEPARTAMENTO",nullable=false)
 	private Departamento departamento;	 
-		
+	
 	@Column(name="USU_CADASTRO",nullable=false)
-	private Calendar dataCadastro;	 
+	@Temporal(TemporalType.DATE)
+	private Date dataCadastro;	 
 	
 	@Column(name="USU_ALTERACAO")
-	private Calendar dataAlteracao;
+	private Date dataAlteracao;
 		
 	public Usuario() {
 		super();
@@ -56,7 +59,7 @@ public class Usuario implements Serializable {
 
 
 	public Usuario(Integer id, String login, String senha, String nome, String status, Departamento departamento,
-			Calendar dataCadastro, Calendar dataAlteracao) {
+			Date dataCadastro, Date dataAlteracao) {
 		super();
 		this.id = id;
 		this.login = login;
@@ -102,6 +105,11 @@ public class Usuario implements Serializable {
 	}
 
 	public String getStatus() {
+		if (status == "I"){
+			status = "Inativo";
+		}else{
+			status = "Ativo";
+		}
 		return status;
 	}
 
@@ -119,19 +127,19 @@ public class Usuario implements Serializable {
 	}
 
 
-	public Calendar getDataCadastro() {
+	public Date getDataCadastro() {
 		return dataCadastro;
 	}
 
-	public void setDataCadastro(Calendar dataCadastro) {
+	public void setDataCadastro(Date dataCadastro) {
 		this.dataCadastro = dataCadastro;
 	}
 
-	public Calendar getDataAlteracao() {
+	public Date getDataAlteracao() {
 		return dataAlteracao;
 	}
 
-	public void setDataAlteracao(Calendar dataAlteracao) {
+	public void setDataAlteracao(Date dataAlteracao) {
 		this.dataAlteracao = dataAlteracao;
 	}
 

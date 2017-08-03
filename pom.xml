@@ -8,6 +8,28 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 	
 	<dependencies>
 			
+		<!-- Para que o CDI funcione por estar usando Apache  -->
+		<dependency>
+		    <groupId>org.jboss.weld.servlet</groupId>
+		    <artifactId>weld-servlet</artifactId>
+		    <version>2.3.4.Final</version>
+		</dependency>
+		
+		<!-- Weld depende do Jandex -->
+		<dependency>
+			<groupId>org.jboss</groupId>
+		    <artifactId>jandex</artifactId>
+		    <version>1.2.3.Final</version>
+		    <scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+		    <groupId>javax.enterprise</groupId>
+		    <artifactId>cdi-api</artifactId>
+		    <version>2.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		
 		<dependency>
     		<groupId>mysql</groupId>
     		<artifactId>mysql-connector-java</artifactId>

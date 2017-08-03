@@ -1,11 +1,15 @@
 package br.com.paises.mb;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
+import org.omnifaces.util.Messages;
 
 import br.com.paises.dao.DepartamentoDao;
 import br.com.paises.dao.UsuarioDao;
@@ -21,70 +25,84 @@ public class UsuarioBean {
 	private List<Usuario> usuarios;
 	private List<Departamento> departamentos;
 	
+	@Inject
+	private UsuarioDao usuarioDao;
+
+	@Inject
+	private DepartamentoDao deptoDao;
 	
 	@PostConstruct
 	public void init() {
-		DepartamentoDao departamentoDao = new DepartamentoDao();
-		departamentos = departamentoDao.listaTodos();
+		try{
+			departamentos = deptoDao.listaTodos();
+			usuarios = usuarioDao.listaTodos();
+		}catch(RuntimeException erro) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar listar os Usuários!");
+			erro.printStackTrace();
+		}		
 	}
 	
 	
+	// para sair da aplicação
+	// geralmente volta para a página de login
+	public String logout() {
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "session?faces-redirect=true";
+	}
+		
 	public void gravar() {
-		System.out.println("Chamou");
-		
-		UsuarioDao dao = new UsuarioDao();
-		
-		Calendar calendar = Calendar.getInstance();
-		
+					
 		if(usuario.getId() == null){
-			usuario.setDataCadastro(calendar);			
+			usuario.setDataCadastro(new Date());			
 			usuario.setDataAlteracao(null);
-			dao.adiciona(usuario);
+			usuarioDao.adiciona(usuario);
 		} else {
-			usuario.setDataAlteracao(calendar);
-			dao.atualiza(usuario);
+			usuario.setDataAlteracao(new Date());
+			usuarioDao.atualiza(usuario);
 		}
 		
 		this.usuario = new Usuario();
-		//this.usuarios = dao.listaTodos();		
+		this.usuarios = usuarioDao.listaTodos();		
 	}
 
+	
+	public void excluir(Usuario usuario){
+		usuarioDao.remove(usuario);
+		this.usuarios = usuarioDao.listaTodos();
+	}
+
+
 	public List<Usuario> getUsuarios() {
-		
-		if(usuarios == null){
-			System.out.println("Carregando Usuários...");
-			usuarios = new UsuarioDao().listaTodos();
-		}
-		
 		return usuarios;
 	}
-	
-	public void remover(Usuario usuario){
-		UsuarioDao dao = new UsuarioDao();
-		dao.remove(usuario);
-		this.usuarios = dao.listaTodos();
+
+
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
-	
-	
-	public Usuario getUsuario() {
-		return this.usuario;
-	}
-		
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+
 
 	public List<Departamento> getDepartamentos() {
 		return departamentos;
 	}
 
+
 	public void setDepartamentos(List<Departamento> departamentos) {
 		this.departamentos = departamentos;
 	}
 
-	public void setUsuarios(List<Usuario> usuarios) {
-		this.usuarios = usuarios;
+
+	public Usuario getUsuario() {
+		return usuario;
 	}
+
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	
+
 	
 	
 	

@@ -14,5 +14,13 @@
     	<url-pattern>*.xhtml</url-pattern>
   	</servlet-mapping>
   
-  
+	
+	<!-- Para o apache funcionar com CDI -->
+	<!-- 
+	<listener>
+		<listener-class>
+			org.jboss.weld.enviroment.servlet.Listener
+		</listener-class>
+	</listener>  
+    -->
 </web-app> 

@@ -17,16 +17,19 @@
 				<br />
 				<h:panelGrid columns="1">
 					<p:outputLabel value="Descrição:" form="descricao" />
-					<p:inputText id="descricao" value="#{departamentoBean.departamento.descricao}" style="width:600px;"/>
+					<p:inputText id="descricao" value="#{departamentoBean.departamento.descricao}" 
+								required="true" requiredMessage="O campo Descrição é obrigatório" style="width:600px;"/>
 				</h:panelGrid>				
 				<br />				
 				<h:panelGrid columns="1">
 					<p:outputLabel value="Centro de Custo:" form="centrodecusto" />
-					<p:inputText id="centrodecusto" value="#{departamentoBean.departamento.centroDeCusto}"/>
+					<p:inputMask id="centrodecusto" maxlength="11" mask="999.999.999" value="#{departamentoBean.departamento.centroDeCusto}"
+								required="true" requiredMessage="O campo Centro de Custo é obrigatório" />
 				</h:panelGrid>				
 				<br />							
 				<p:outputLabel for="status" value="Status:" />
-				<p:selectOneRadio id="status" value="#{departamentoBean.departamento.status}" >
+				<p:selectOneRadio id="status" value="#{departamentoBean.departamento.status}" 
+								required="true" requiredMessage="O campo Status é obrigatório" >
 					<f:selectItem itemValue="A" itemLabel="Ativo" />
 					<f:selectItem itemValue="I" itemLabel="Inativo" />
 				</p:selectOneRadio>
@@ -34,19 +37,23 @@
 				<h:panelGrid columns="2">
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Data Cadastro:" form="dataCadastro" />
-						<p:inputText id="dataCadastro" value="#{usuarioBean.usuario.dataCadastro}" style="background-color:#D3D3D3;" readonly="true"/>
+						<p:inputText id="dataCadastro" value="#{departamentoBean.departamento.dataCadastro}" style="background-color:#D3D3D3;" readonly="true">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+						</p:inputText>	
 					</h:panelGrid>	
 					<h:panelGrid columns="1">
 						<p:outputLabel value="Data Alteracao:" form="dataAlteracao" />
-						<p:inputText id="dataAlteracao" value="#{usuarioBean.usuario.dataAlteracao}" style="background-color:#D3D3D3;" readonly="true"/>
+						<p:inputText id="dataAlteracao" value="#{departamentoBean.departamento.dataAlteracao}" style="background-color:#D3D3D3;" readonly="true">
+							<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+						</p:inputText>	
 					</h:panelGrid>					
 				</h:panelGrid>								
 			</fieldset>
 			
 			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" actionListener="#{departamentoBean.gravar}" update=":formCadastro" />
+				<p:commandButton value="Salvar" actionListener="#{departamentoBean.salvar}" update=":formCadastro" />
 										 
-				<p:commandButton value="Cancelar" process="@none"/>
+				<p:commandButton value="Cancelar" action="listaDepartamentos?faces-redirect=true" update=":formCadastro" />
 			</h:panelGrid>
 		</h:form>
 	</h:body>
